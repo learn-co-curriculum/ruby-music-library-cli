@@ -77,30 +77,30 @@ First implement the following two methods in your `Song` class
   * Songs should have a `find_by_name` method.
   * Songs should have a `find_or_create_by_name` method.
 
-Now that you've done that, let's generalize those methods by putting them into a module and then including that module in the `Genre` and `Artist` class.
-
-### Concerns::Findable
-
-  * Implement a generic `#find_by_name` method that uses the `.all` method defined by the class to find by name.
-  * Implement a generic `#find_or_create_by_name` method that uses the `.all` method defined by the class.
+### `Concerns::Findable`
+Now that you've gotten the methods working in `Song`, let's adapt them for general reuse by putting them into a module that we can mix into our `Artist` and `Genre` classes:
+  * Implement a generic `#find_by_name` method that uses the `.all` method defined by the class to find an instance of the class by name.
+  * Implement a generic `#find_or_create_by_name` method that uses the `.all` method defined by the class to find an instance of the class by name and to create a new instance if a match is not found.
   * Add this module to your `Genre` and `Artist` class.
 
+## `MusicImporter`
 
-## Music Importer
+Create a `MusicImporter` class that works with your `Song`, `Genre`, and `Artist` objects to import a directory of MP3 files. This class will have the following methods:
+  * `#initialize` accepts a file path to a directory of MP3 files.
+  * `#files` returns all of the imported filenames.
+  * `.import` imports all of the files from the library, instantiating a new `Song` object for each file.
 
-Create a Music Importer class to work with your `Song`, `Genre` and `Artist` objects to import a directory of mp3s. This class will have the following methods:
+In addition, add the following pair of methods to your `Song` class:
+  * `.new_from_filename`, which instantiates a new `Song` object based on a provided filename.
+  * `.create_from_filename`, which does the same thing as `.new_from_filename` but also saves the newly-created song to the `@@all` class variable.
 
-  * Initialize accepts a file path of mp3 files
-  * A `#files` method that will return all of the filenames
-  * Add a new method to the `Song` class called `.new_from_filename` that creates a `Song` based on a filename
-  * Add a new method to the `Song` class called `.create_from_filename` that creates a `Song` based on a filename and saves it to the `@@all` class variable
-  * In your `MusicImporter` class, add an `.import` method that imports all the files from the library and creates the `Song` objects.
+## It's CLI time!
+Congrats! You've done the heavy lifting. Now let's wrap it all up in a simple CLI so that users can actually interact with our code.
 
-## CLI and Music Importer Controller
-Congrats! You've done the heavy lifting. Now let's wrap it all up in a CLI so that users can actually interact with our code.
+  * Upon initialization, the CLI should accept an optional path to the library of MP3 files, defaulting to `./db/mp3s/`. It should then instantiate a `MusicImporter` object, which it will use to import songs from the specified library.
+  * Add a `#call` method that starts the CLI and prompts the user for input. Read the tests carefully for specifics.
 
-  * It initializes with an optional path to the music, but defaults to `./db/mp3s`. It creates a `MusicImporter` and imports the music.
-  * Add a `#call` method that starts the CLI and asks the user for input. Check out the tests for specifics.
+Have fun!
 
 
 ## Resources
