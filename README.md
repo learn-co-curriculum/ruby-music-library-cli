@@ -14,9 +14,7 @@ A quick note on the placement of Modules. It's Ruby convention to put all Module
 
 ## `Song`, `Artist`, and `Genre` Basics
 
-The first thing to do is get the basics of the main models working. Each model has almost the exact same basic requirements, so once you make `001_song_basics_spec.rb` pass by building the `Song` class, the `Artist` and `Genre` basic specs will go fast.
-
-The requirements of each model are that they can accept a name upon initialization and set that property correctly. The `name` property should be readable and writeable by the object.
+The requirements for each model are that they can accept a `name` upon initialization and set that property correctly. The `name` property should be readable and writable by the object.
 
 ```ruby
 Song.new("Blank Space").name #=> "Blank Space"`
@@ -38,13 +36,13 @@ Song.all #=> [#<Song: @name="Blank Space">]
 The class should be able to empty its `@@all` array via a class method `.destroy_all`.
 
 ```ruby
-Song.new("Blank Space").save
-Song.all #=> [#<Song: @name="Blank Space">]
+Song.new("Kaohsiung Christmas").save
+Song.all #=> [#<Song: @name="Blank Space">, #<Song: @name="Kaohsiung Christmas">]
 Song.destroy_all
 Song.all #=> []
 ```
 
-Finally, all classes should implement a custom constructor `.create` that instantiates an instance using `.new` but also evokes `#save` on that instance, forcing it to persist immediately.
+Finally, all classes should implement a custom constructor `.create` that instantiates an instance using `.new` but also invokes `#save` on that instance, forcing it to persist immediately.
 
 ```ruby
 Song.new("Blank Space")
@@ -68,8 +66,8 @@ Song.all #=> [#<Song: @name="Blank Space">]
 
 ### Artists and Genres
 
-  * `Artist`s have many `Genre`s through `Song`. Implement a `#genres` method for this association.
-  * `Genre`s have many `Artists`s through `Song`. Implement a `#artists` method for this association.
+  * Artists have many genres through their songs. Implement a `#genres` method for this association.
+  * Genres have many artists through their songs. Implement an `#artists` method for this association.
 
 ## Finding
 
