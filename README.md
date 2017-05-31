@@ -1,18 +1,17 @@
 # Ruby Music Library
 
 ## Overview
-
-You're going to be implementing a Music Library domain composed of 3 main models, `Song`, `Artist`, and `Genre` that will relate to each other and collaborate heavily. Additionally, you're going to be extracting some common functionality of those models into a module, `Concerns::Findable` and mixing that module into those classes. You'll then build a collaborating object, `MusicImporter`, that can parse a directory of MP3 files and use the filenames to create instances of `Song`, `Artist`, and `Genre`. Finally, you'll build a CLI in `bin/musiclibrary` that is powered by a `MusicLibraryController` to provide a simple CLI that lets a user browse the library of MP3s imported by song, artist, and genre.
+You're going to be implementing a Music Library domain composed of 3 main models, `Song`, `Artist`, and `Genre`. The models will relate to each other and collaborate heavily. Additionally, you're going to be extracting some common functionality out of those models and into a module, `Concerns::Findable`, which you'll then mix back into the models. You'll then build a collaborating object, `MusicImporter`, that can parse a directory of MP3 files and use the extracted filenames to create instances of `Song`, `Artist`, and `Genre` objects. Finally, you'll build a CLI in `bin/musiclibrary` that is powered by a `MusicLibraryController` to provide a simple CLI that lets a user browse the library of MP3s imported by song, artist, and genre.
 
 This is a complex lab with many parts, so go slowly. Take time to understand what you're building holistically before starting. Read this entire README before jumping in. As you go from spec to spec, we recommend doing them in numbered order.
 
 ## Concerns
-
-A quick note on the placement of Modules. It's Ruby convention to put all Modules in a `concerns` folder and to be namespaced like this `Concerns::ModuleName`.
+A quick note on the placement of Modules. It's Ruby convention to put all Modules in a `concerns/` folder nested under `lib/`, and each module should be namespaced like this: `Concerns::ModuleName`.
 
 ## Instructions
 
-## `Song`, `Artist`, and `Genre` Basics
+## `Song`, `Artist`, and `Genre` basics
+The first thing to do is get the basics of the main models working. Each model has almost the exact same basic requirements, so once you make `001_song_basics_spec.rb` pass by building the `Song` class, the basic `Artist` and `Genre` specs will go quickly.
 
 The requirements for each model are that they can accept a `name` upon initialization and set that property correctly. The `name` property should be readable and writable by the object.
 
@@ -20,13 +19,15 @@ The requirements for each model are that they can accept a `name` upon initializ
 Song.new("Blank Space").name #=> "Blank Space"`
 ```
 
-Additionally, each class should contain a class variable `@@all` that is set to an empty array and is prepared to store all saved instances. This class variable should be accessible via the class method `.all`.
+Additionally, *each* class should contain a class variable `@@all` that is set to an empty array and is prepared to store all saved instances of the class. This class variable should be accessible via the class method `.all`.
 
 ```ruby
 Song.all #=> []
+
+Artist.all #=> []
 ```
 
-Instances should respond to a `#save` method that adds the instance itself into the class variable `@@all`.
+Instances should respond to a `#save` method that adds the instance itself into the appropriate `@@all` class variable.
 
 ```ruby
 Song.new("Blank Space").save
@@ -53,27 +54,23 @@ Song.all #=> [#<Song: @name="Blank Space">]
 
 ## Relationships
 
-### Songs and Artists
+### `Song`s and `Artist`s
+ * Songs belong to an artist and an artist has many songs. Adding a song to an artist is done by calling an `#add_song` method on an instance of the `Artist` class.
+ * Songs can be initialized with an optional `artist` argument.
 
- * Songs belong to an Artist and an Artist has many songs. Adding a song to an Artist is done by calling an `#add_song` method on an instance of the `Artist` class
- * Songs can be initialized with an optional `Artist` argument
+### `Song`s and `Genre`s
+  * Genres have many songs and are initialized with an empty list of songs.
+  * Songs have one genre.
+  * Songs can be initialized with an optional `genre` argument.
 
-### Songs and Genres
-
-  * Genres have many songs and are initialized with an empty list of songs
-  * Songs have one genre
-  * Songs can be initialized with an optional genre
-
-### Artists and Genres
-
+### `Artist`s and `Genre`s
   * Artists have many genres through their songs. Implement a `#genres` method for this association.
   * Genres have many artists through their songs. Implement an `#artists` method for this association.
 
 ## Finding
 
 ### Song
-First implement the following two methods in your `Song` class
-
+First implement the following two methods in your `Song` class:
   * Songs should have a `find_by_name` method.
   * Songs should have a `find_or_create_by_name` method.
 
@@ -96,7 +93,6 @@ In addition, add the following pair of methods to your `Song` class:
 
 ## It's CLI time!
 Congrats! You've done the heavy lifting. Now let's wrap it all up in a simple CLI so that users can actually interact with our code.
-
   * Upon initialization, the CLI should accept an optional path to the library of MP3 files, defaulting to `./db/mp3s/`. It should then instantiate a `MusicImporter` object, which it will use to import songs from the specified library.
   * Add a `#call` method that starts the CLI and prompts the user for input. Read the tests carefully for specifics.
 
