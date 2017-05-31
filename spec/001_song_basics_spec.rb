@@ -17,6 +17,13 @@ describe "Song Basics" do
     end
   end
 
+  describe '@@all' do
+    it 'is set to an empty array' do
+      all = Song.class_variable_get(:@@all)
+      expect(all).to match_array([])
+    end
+  end
+
   describe '.all' do
     it 'returns the class variable @@all' do
       Song.class_variable_set(:@@all, [])
