@@ -1,18 +1,17 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe "Artist Basics" do
-  describe '#initialize with #name' do
-    it 'accepts a name for the song' do
+describe "Artist" do
+  describe "#initialize" do
+    it "accepts a name for the new artist" do
       artist = Artist.new("Neutral Milk Hotel")
       expect(artist.name).to eq("Neutral Milk Hotel")
     end
   end
 
-  describe '#name=' do
-    it "sets the artist name" do
+  describe "#name=" do
+    it "can set the name of an artist" do
       artist = Artist.new("Neutral Milk Hotel")
       artist.name = "Jeff Mangum"
-
       expect(artist.name).to eq("Jeff Mangum")
     end
   end
@@ -40,20 +39,17 @@ describe "Artist Basics" do
     end
   end
 
-  describe '#save' do
-    it 'adds the artist instance to the @@all class variable' do
+  describe "#save" do
+    it "adds the Artist instance to the @@all class variable" do
       artist = Artist.new("Neutral Milk Hotel")
-
       artist.save
-
       expect(Artist.all).to include(artist)
     end
   end
 
-  describe '.create' do
-    it 'initializes and saves the artist' do
+  describe ".create" do
+    it "initializes and saves the artist" do
       artist = Artist.create("Neutral Milk Hotel")
-
       expect(Artist.all).to include(artist)
     end
   end

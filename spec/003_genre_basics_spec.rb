@@ -1,18 +1,17 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe "Genre Basics" do
-  describe '#initialize with #name' do
-    it 'accepts a name for the genre' do
+describe "Genre" do
+  describe "#initialize" do
+    it "accepts a name for the new genre" do
       genre = Genre.new("indie rock")
       expect(genre.name).to eq("indie rock")
     end
   end
 
-  describe '#name=' do
-    it "sets the genre name" do
+  describe "#name=" do
+    it "can set the name of a genre" do
       genre = Genre.new("indie rock")
       genre.name = "classics"
-
       expect(genre.name).to eq("classics")
     end
   end
@@ -40,20 +39,17 @@ describe "Genre Basics" do
     end
   end
 
-  describe '#save' do
-    it 'adds the genre instance to the @@all class variable' do
+  describe "#save" do
+    it "adds the Genre instance to the @@all class variable" do
       genre = Genre.new("indie rock")
-
       genre.save
-
       expect(Genre.all).to include(genre)
     end
   end
 
-  describe '.create' do
-    it 'initializes and saves the genre' do
+  describe ".create" do
+    it "initializes and saves the genre" do
       genre = Genre.create("indie rock")
-
       expect(Genre.all).to include(genre)
     end
   end
