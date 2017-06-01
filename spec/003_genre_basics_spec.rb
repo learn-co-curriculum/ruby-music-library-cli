@@ -27,8 +27,9 @@ describe "Genre" do
     it "returns the class variable @@all" do
       expect(Genre.all).to match_array([])
 
-      Genre.class_variable_set(:@@all, ["shoegaze"])
-      expect(Genre.all).to match_array(["shoegaze"])
+      genre = Genre.new("shoegaze")
+      Genre.class_variable_set(:@@all, [genre])
+      expect(Genre.all).to match_array([genre])
     end
   end
 

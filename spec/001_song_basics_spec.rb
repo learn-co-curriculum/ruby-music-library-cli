@@ -27,8 +27,9 @@ describe "Song" do
     it 'returns the class variable @@all' do
       expect(Song.all).to match_array([])
 
-      Song.class_variable_set(:@@all, ["Kaohsiung Christmas"])
-      expect(Song.all).to match_array(["Kaohsiung Christmas"])
+      song = Song.new("Kaohsiung Christmas")
+      Song.class_variable_set(:@@all, [song])
+      expect(Song.all).to match_array([song])
     end
   end
 

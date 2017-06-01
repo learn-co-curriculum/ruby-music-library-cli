@@ -27,8 +27,9 @@ describe "Artist" do
     it "returns the class variable @@all" do
       expect(Artist.all).to match_array([])
 
-      Artist.class_variable_set(:@@all, ["Fear of Tigers"])
-      expect(Artist.all).to match_array(["Fear of Tigers"])
+      artist = Artist.new("Fear of Tigers")
+      Artist.class_variable_set(:@@all, [artist])
+      expect(Artist.all).to match_array([artist])
     end
   end
 
