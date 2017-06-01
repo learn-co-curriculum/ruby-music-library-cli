@@ -12,7 +12,6 @@ describe "Song" do
     it "can set the name of a song" do
       song = Song.new("In the Aeroplane Over the Sea")
       song.name = "Jump Around"
-
       expect(song.name).to eq("Jump Around")
     end
   end
@@ -41,7 +40,7 @@ describe "Song" do
   end
 
   describe '#save' do
-    it 'adds the song instance to the @@all class variable' do
+    it 'adds the Song instance to the @@all class variable' do
       song = Song.new("In the Aeroplane Over the Sea")
       song.save
       expect(Song.all).to include(song)
@@ -51,7 +50,6 @@ describe "Song" do
   describe '.create' do
     it 'initializes and saves the song' do
       song = Song.create("In the Aeroplane Over the Sea")
-
       expect(Song.all).to include(song)
     end
   end
