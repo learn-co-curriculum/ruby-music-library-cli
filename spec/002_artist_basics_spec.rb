@@ -17,18 +17,24 @@ describe "Artist Basics" do
     end
   end
 
-  describe '.all' do
-    it 'returns the class variable @@all' do
-      Artist.class_variable_set(:@@all, [])
-
-      expect(Artist.all).to match_array([])
+  describe '@@all' do
+    it 'is set to an empty array' do
+      all = Artist.class_variable_get(:@@all)
+      expect(all).to match_array([])
     end
   end
 
-  describe '.destroy_all' do
-    it 'resets the @@all class variable to an empty array' do
-      Artist.class_variable_set(:@@all, ["Artist"])
+  describe ".all" do
+    it "returns the class variable @@all" do
+      expect(Artist.all).to match_array([])
 
+      Artist.class_variable_set(:@@all, ["Fear of Tigers"])
+      expect(Artist.all).to match_array(["Fear of Tigers"])
+    end
+  end
+
+  describe ".destroy_all" do
+    it "resets the @@all class variable to an empty array" do
       Artist.destroy_all
       expect(Artist.all).to match_array([])
     end

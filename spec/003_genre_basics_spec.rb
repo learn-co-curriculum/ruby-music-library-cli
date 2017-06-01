@@ -17,18 +17,24 @@ describe "Genre Basics" do
     end
   end
 
-  describe '.all' do
-    it 'returns the class variable @@all' do
-      Genre.class_variable_set(:@@all, [])
-
-      expect(Genre.all).to match_array([])
+  describe '@@all' do
+    it 'is set to an empty array' do
+      all = Genre.class_variable_get(:@@all)
+      expect(all).to match_array([])
     end
   end
 
-  describe '.destroy_all' do
-    it 'resets the @@all class variable to an empty array' do
-      Genre.class_variable_set(:@@all, ["Genre"])
+  describe ".all" do
+    it "returns the class variable @@all" do
+      expect(Genre.all).to match_array([])
 
+      Genre.class_variable_set(:@@all, ["shoegaze"])
+      expect(Genre.all).to match_array(["shoegaze"])
+    end
+  end
+
+  describe ".destroy_all" do
+    it "resets the @@all class variable to an empty array" do
       Genre.destroy_all
       expect(Genre.all).to match_array([])
     end
