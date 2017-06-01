@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-describe "Song Basics" do
-  describe '#initialize with #name' do
-    it 'accepts a name for the song' do
+describe "Song" do
+  describe "#initialize" do
+    it "accepts a name for the new song" do
       song = Song.new("In the Aeroplane Over the Sea")
       expect(song.name).to eq("In the Aeroplane Over the Sea")
     end
   end
 
   describe '#name=' do
-    it "sets the song name" do
+    it "can set the name of a song" do
       song = Song.new("In the Aeroplane Over the Sea")
       song.name = "Jump Around"
 
@@ -45,9 +45,7 @@ describe "Song Basics" do
   describe '#save' do
     it 'adds the song instance to the @@all class variable' do
       song = Song.new("In the Aeroplane Over the Sea")
-
       song.save
-
       expect(Song.all).to include(song)
     end
   end
