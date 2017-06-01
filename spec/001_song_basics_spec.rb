@@ -35,8 +35,6 @@ describe "Song" do
 
   describe '.destroy_all' do
     it 'resets the @@all class variable to an empty array' do
-      Song.class_variable_set(:@@all, ["Song"])
-
       Song.destroy_all
       expect(Song.all).to match_array([])
     end
