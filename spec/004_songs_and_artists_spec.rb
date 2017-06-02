@@ -69,8 +69,8 @@ describe "Songs and Artists" do
 
   context "initializing a song with an artist" do
     it "new songs accept an optional argument for the artist" do
-      artist = Artist.new("Neutral Milk Hotel")
-      song = Song.new("In the Aeroplane Over the Sea", artist)
+      artist = Artist.new("Fear of Tigers")
+      song = Song.new("Kaohsiung Christmas", artist)
 
       expect(artist.songs).to include(song)
       expect(song.artist).to eq(artist)
