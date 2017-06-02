@@ -23,6 +23,16 @@ describe "Associations — Song and Artist:" do
   end
 
   context "Song" do
+    describe "#initialize" do
+      it "can be invoked with an optional second argument, an Artist object to be assigned to the song's 'artist' property (song belongs to artist)" do
+        artist = Artist.new("Fear of Tigers")
+        song = Song.new("Kaohsiung Christmas", artist)
+
+        expect(artist.songs).to include(song)
+        expect(song.artist).to eq(artist)
+      end
+    end
+
     describe "#artist" do
       it "returns the artist of the song (song belongs to artist)" do
         @song.instance_variable_set(:@artist, @artist)
@@ -73,16 +83,6 @@ describe "Associations — Song and Artist:" do
         expect(@artist).to receive(:add_song)
         @song.artist = @artist
       end
-    end
-  end
-
-  context "initializing a song with an artist" do
-    it "new songs accept an optional argument for the artist" do
-      artist = Artist.new("Fear of Tigers")
-      song = Song.new("Kaohsiung Christmas", artist)
-
-      expect(artist.songs).to include(song)
-      expect(song.artist).to eq(artist)
     end
   end
 end
