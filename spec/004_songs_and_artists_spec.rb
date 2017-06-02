@@ -15,9 +15,10 @@ describe "Associations — Song and Artist:" do
     end
 
     describe "#songs" do
-      it "pushes a song into the artist's 'songs' collection (artist has many songs)" do
+      it "returns the artist's 'songs' collection (artist has many songs)" do
+        expect(@artist.songs).to eq([])
         @artist.songs << @song
-        expect(@artist.songs).to include(@song)
+        expect(@artist.songs).to eq([@song])
       end
     end
   end
