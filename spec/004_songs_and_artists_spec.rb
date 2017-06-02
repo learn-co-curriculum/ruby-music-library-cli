@@ -26,7 +26,7 @@ describe "Songs and Artists" do
 
       # it 'enforces the type of object assigned to Artist'
 
-      it "adds the song to the artist\'s songs" do
+      it "adds the song to the artist's 'songs' collection (artist has many songs)" do
         @song.artist = @artist
         expect(@artist.songs).to include(@song)
       end
@@ -35,7 +35,7 @@ describe "Songs and Artists" do
 
   context "adding a song to an artist" do
     describe "#add_song" do
-      it "adds the song to the artist\'s song collection" do
+      it "adds the song to the artist's song collection" do
         @artist.add_song(@song)
         expect(@artist.songs).to include(@song)
       end
