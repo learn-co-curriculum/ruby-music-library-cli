@@ -34,6 +34,13 @@ describe "Associations — Song and Genre:" do
       end
     end
 
+    describe "#genre" do
+      it "returns the genre of the song (song belongs to genre)" do
+        @song.instance_variable_set(:@genre, @genre)
+        expect(@song.genre).to be(@genre)
+      end
+    end
+
     describe "#genre=" do
       it "accepts an genre for the song" do
         @song.genre = @genre
