@@ -45,27 +45,22 @@ describe "Associations — Song and Artist:" do
         @song.artist = @artist
         expect(@song.artist).to eq(@artist)
       end
-
-      it "adds the song to the artist's 'songs' collection" do
-        @song.artist = @artist
-        expect(@artist.songs).to include(@song)
-      end
     end
   end
 
-  context "adding a song to an artist" do
+  context "Artist" do
     describe "#add_song" do
-      it "adds the song to the artist's song collection (artist has many songs)" do
-        @artist.add_song(@song)
-        expect(@artist.songs).to include(@song)
-      end
-
-      it "assigns the artist to the song" do
+      it "assigns the artist to the song's 'artist' property (song belongs to artist)" do
         @artist.add_song(@song)
         expect(@song.artist).to eq(@artist)
       end
 
-      it "does not assign the artist to the song if the song already has the artist" do
+      it "adds the song to the artist's collection of songs (artist has many songs)" do
+        @artist.add_song(@song)
+        expect(@artist.songs).to include(@song)
+      end
+
+      it "does not re-assign the artist to the song if the song already has an artist" do
         @song.artist = @artist
         expect(@song).to_not receive(:artist=)
         @artist.add_song(@song)
@@ -77,9 +72,11 @@ describe "Associations — Song and Artist:" do
         expect(@artist.songs.size).to eq(1)
       end
     end
+  end
 
-    describe "Song#artist=" do
-      it "uses add_song to add the song to the artist's collection" do
+  context "Song" do
+    describe "#artist=" do
+      it "invokes Artist#add_song to add itself to the artist's collection of songs (artist has many songs)" do
         expect(@artist).to receive(:add_song)
         @song.artist = @artist
       end
