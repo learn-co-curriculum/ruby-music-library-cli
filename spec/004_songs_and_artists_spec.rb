@@ -26,11 +26,10 @@ describe "Associations — Song and Artist:" do
   context "Song" do
     describe "#initialize" do
       it "can be invoked with an optional second argument, an Artist object to be assigned to the song's 'artist' property (song belongs to artist)" do
-        artist = Artist.new("Fear of Tigers")
-        song = Song.new("Kaohsiung Christmas", artist)
+        song = Song.new("Two-Headed Boy", @artist)
 
-        expect(artist.songs).to include(song)
-        expect(song.artist).to eq(artist)
+        expect(@artist.songs).to include(song)
+        expect(song.artist).to eq(@artist)
       end
     end
 
