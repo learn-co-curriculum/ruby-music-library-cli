@@ -8,7 +8,8 @@ describe "Songs and Artists" do
 
   context "Artists have many songs" do
     it "initializes with a songs property set to an empty array" do
-      expect(@artist.songs).to eq([])
+      expect(@artist.instance_variable_defined?(:@songs)).to be(true)
+      expect(@artist.instance_variable_get(:@songs)).to eq([])
     end
 
     it "can push a song into their 'songs' collection (artist has many songs)" do
