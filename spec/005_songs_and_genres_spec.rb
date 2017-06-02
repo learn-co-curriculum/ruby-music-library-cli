@@ -9,7 +9,8 @@ describe "Associations — Song and Genre:" do
   context "Genre" do
     describe "#initialize" do
       it "creates a 'songs' property set to an empty array (genre has many songs)" do
-        expect(@genre.songs).to eq([])
+        expect(@genre.instance_variable_defined?(:@songs)).to be(true)
+        expect(@genre.instance_variable_get(:@songs)).to eq([])
       end
     end
 
