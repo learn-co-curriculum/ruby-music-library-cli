@@ -58,15 +58,15 @@ describe "Associations — Song and Artist:" do
         expect(@song.artist).to eq(@artist)
       end
 
-      it "adds the song to the artist's collection of songs (artist has many songs)" do
-        @artist.add_song(@song)
-        expect(@artist.songs).to include(@song)
-      end
-
       it "does not re-assign the artist to the song if the song already has an artist" do
         @song.artist = @artist
         expect(@song).to_not receive(:artist=)
         @artist.add_song(@song)
+      end
+
+      it "adds the song to the artist's collection of songs (artist has many songs)" do
+        @artist.add_song(@song)
+        expect(@artist.songs).to include(@song)
       end
 
       it "does not add the song to the artist's song collection if the artist already has the song" do
