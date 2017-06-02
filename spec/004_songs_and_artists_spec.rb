@@ -19,7 +19,7 @@ describe "Songs and Artists" do
 
   context "Songs belong to an artist" do
     describe "#artist=" do
-      it "accepts an artist for the song" do
+      it "assigns an artist to the song (song belongs to artist)" do
         @song.artist = @artist
         expect(@song.artist).to eq(@artist)
       end
