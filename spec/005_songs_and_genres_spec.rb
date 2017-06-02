@@ -23,7 +23,17 @@ describe "Associations — Song and Genre:" do
     end
   end
 
-  context "Songs belong to a genre" do
+  context "Song" do
+    describe "#initialize" do
+      it "can be invoked with an optional second argument, a Genre object to be assigned to the song's 'genre' property (song belongs to genre)" do
+        artist = Artist.new("Neutral Milk Hotel")
+        song = Song.new("In the Aeroplane Over the Sea", artist, @genre)
+
+        expect(song.instance_variable_defined?(:@genre)).to be(true)
+        expect(song.instance_variable_get(:@genre)).to be(@genre)
+      end
+    end
+
     describe "#genre=" do
       it "accepts an genre for the song" do
         @song.genre = @genre
@@ -44,16 +54,6 @@ describe "Associations — Song and Genre:" do
         expect(@genre.songs).to include(@song)
         expect(@genre.songs.size).to eq(1)
       end
-    end
-  end
-
-  context "initializing a song with a genre" do
-    it "songs accept an optional argument for the genre" do
-      artist = Artist.new("Neutral Milk Hotel")
-      song = Song.new("In the Aeroplane Over the Sea", artist, @genre)
-
-      expect(@genre.songs).to include(song)
-      expect(song.genre).to eq(@genre)
     end
   end
 end
