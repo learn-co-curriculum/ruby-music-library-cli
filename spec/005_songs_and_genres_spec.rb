@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "Songs and Genres" do
+describe "Associations — Song and Genre:" do
   context "Genres have many songs" do
     it "initializes with a songs property set to an empty array" do
       genre = Genre.new("indie rock")
