@@ -52,8 +52,7 @@ describe "Songs and Artists" do
       end
 
       it "does not add the song to the artist's song collection if the artist already has the song" do
-        @artist.add_song(@song)
-        @artist.add_song(@song)
+        2.times { @artist.add_song(@song) }
         expect(@artist.songs).to include(@song)
         expect(@artist.songs.size).to eq(1)
       end
