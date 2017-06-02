@@ -1,13 +1,13 @@
 require "spec_helper"
 
-describe "Songs and Artists" do
+describe "Associations — Song and Artist:" do
   before(:each) do
     @song = Song.new("In the Aeroplane Over the Sea")
     @artist = Artist.new("Neutral Milk Hotel")
   end
 
-  context "Artists have many songs" do
-    it "initializes with a songs property set to an empty array" do
+  context "Artists" do
+    it "are initialized with a 'songs' property set to an empty array (artist has many songs)" do
       expect(@artist.instance_variable_defined?(:@songs)).to be(true)
       expect(@artist.instance_variable_get(:@songs)).to eq([])
     end
