@@ -11,13 +11,13 @@ describe "Songs and Artists" do
       expect(@artist.songs).to eq([])
     end
 
-    it "can push a song into the songs collection" do
+    it "can push a song into their 'songs' collection (artist has many songs)" do
       @artist.songs << @song
       expect(@artist.songs).to include(@song)
     end
   end
 
-  context "Songs belong to an artist" do
+  context "Songs" do
     describe "#artist" do
       it "returns the artist of the song (song belongs to artist)" do
         @song.instance_variable_set(:@artist, @artist)
