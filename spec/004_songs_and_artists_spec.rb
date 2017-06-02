@@ -18,6 +18,13 @@ describe "Songs and Artists" do
   end
 
   context "Songs belong to an artist" do
+    describe "#artist" do
+      it "returns the artist of the song (song belongs to artist)" do
+        @song.instance_variable_set(:@artist, @artist)
+        expect(@song.artist).to be(@artist)
+      end
+    end
+
     describe "#artist=" do
       it "assigns an artist to the song (song belongs to artist)" do
         @song.artist = @artist
