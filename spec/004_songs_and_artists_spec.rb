@@ -24,8 +24,6 @@ describe "Songs and Artists" do
         expect(@song.artist).to eq(@artist)
       end
 
-      # it 'enforces the type of object assigned to Artist'
-
       it "adds the song to the artist's 'songs' collection (artist has many songs)" do
         @song.artist = @artist
         expect(@artist.songs).to include(@song)
