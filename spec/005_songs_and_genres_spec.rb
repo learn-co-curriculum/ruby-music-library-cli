@@ -25,7 +25,7 @@ describe "Associations — Song and Genre:" do
 
   context "Song" do
     describe "#initialize" do
-      it "can be invoked with an optional second argument, a Genre object to be assigned to the song's 'genre' property (song belongs to genre)" do
+      it "can be invoked with an optional third argument, a Genre object to be assigned to the song's 'genre' property (song belongs to genre)" do
         artist = Artist.new("Neutral Milk Hotel")
         song = Song.new("In the Aeroplane Over the Sea", artist, @genre)
 
