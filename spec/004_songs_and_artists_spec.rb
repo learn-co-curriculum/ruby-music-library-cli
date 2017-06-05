@@ -55,17 +55,14 @@ describe "Associations — Song and Artist:" do
           @artist.add_song(@song)
           expect(@song.artist).to be(@artist)
         end
-      end
 
-      context "if the song is already assigned to the current artist but is not present in the current artist's 'songs' collection," do
-        it "#add_song adds the song to the artist's collection of songs (artist has many songs)" do
-          expect(@song).to_not receive(:artist=)
+        it "#add_song adds the song to the current artist's 'songs' collection" do
           @artist.add_song(@song)
           expect(@artist.songs).to eq([@song])
         end
       end
 
-      context "if the song is already assigned to a different artist," do
+      context "if the song is already assigned an artist," do
         it "#add_song does not re-assign the song's 'artist' property or add the song to the artist's collection of songs" do
           artist = Artist.new("Fear of Tigers")
           @song.instance_variable_set(:@artist, artist)
@@ -73,13 +70,6 @@ describe "Associations — Song and Artist:" do
           expect(@song).to_not receive(:artist=)
           expect(@artist).to_not receive(:songs)
           @artist.add_song(@song)
-        end
-      end
-
-      context "if the artist's collection of songs already contains the song," do
-        it "#add_song does not add the song to the artist's song collection" do
-          2.times { @artist.add_song(@song) }
-          expect(@artist.songs).to eq([@song])
         end
       end
     end
