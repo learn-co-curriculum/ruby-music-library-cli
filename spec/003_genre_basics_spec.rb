@@ -4,6 +4,14 @@ describe "Genre" do
   describe "#initialize" do
     it "accepts a name for the new genre" do
       genre = Genre.new("indie rock")
+      expect(genre.instance_variable_defined?(:@name)).to be(true)
+      expect(genre.instance_variable_get(:@name)).to eq("indie rock")
+    end
+  end
+
+  describe "#name" do
+    it "retrieves the name of a genre" do
+      genre = Genre.new("indie rock")
       expect(genre.name).to eq("indie rock")
     end
   end
