@@ -24,7 +24,7 @@ describe "Concerns::Findable" do
   FindableTest.all.push(instance1, instance2)
 
   describe ".find_by_name" do
-    it "is added as a class method to classes that are extended by the module" do
+    it "is added as a class method to classes that extend the module" do
       expect(FindableTest).to respond_to(:find_by_name)
     end
 
@@ -36,7 +36,7 @@ describe "Concerns::Findable" do
   end
 
   describe ".find_or_create_by_name" do
-    it "is added as a class method to classes that are extended by the module" do
+    it "is added as a class method to classes that extend the module" do
       expect(FindableTest).to respond_to(:find_or_create_by_name)
     end
 
