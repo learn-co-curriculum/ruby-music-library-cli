@@ -1,77 +1,65 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe "Artists have many genres through songs" do
-  describe '#genres' do
-    it 'returns the unique genres belonging to all the songs of the artist' do
-      genre = Genre.new("indie rock")
-      artist = Artist.new("Neutral Milk Hotel")
-      song = Song.new("In the Aeroplane Over the Sea", artist, genre)
-      song = Song.new("Two-Headed Boy", artist, genre)
+describe "Associations — Artist and Genre" do
+  before(:each) do
+    @genre1 = Genre.new("indie rock")
+    @genre2 = Genre.new("electro pop")
+    @artist1 = Artist.new("The Magnetic Fields")
+    @artist2 = Artist.new("Neutral Milk Hotel")
+  end
 
-      expect(artist.genres).to include(genre)
-      expect(artist.genres.size).to eq(1)
-    end
+  context "Artist" do
+    describe "#genres" do
+      it "returns a collection of the genres of all of the artist's songs" do
+        Song.new("The Luckiest Guy on the Lower East Side", @artist1, @genre1)
+        Song.new("Long-Forgotten Fairytale", @artist1, @genre2)
 
-    it 'returns only unique genres for an artist if more than one song has the same genre' do
-      indie_rock = Genre.new("indie rock")
-      electro_pop = Genre.new("electro pop")
-      artist = Artist.new("The Magnetic Fields")
+        expect(@artist1.genres).to include(@genre1)
+        expect(@artist1.genres).to include(@genre2)
+        expect(artist.genres.size).to be(2)
+      end
 
-      song = Song.new("Long-Forgotten Fairytale", artist, electro_pop)
-      song = Song.new("The Book of Love", artist, indie_rock)
-      song = Song.new("Papa was a Rodeo", artist, indie_rock)
+      it "returns only unique genres for an artist if more than one song has the same genre" do
+        Song.new("In the Aeroplane Over the Sea", @artist2, @genre1)
+        Song.new("Two-Headed Boy", @artist2, @genre1)
 
-      expect(artist.genres).to match_array([indie_rock, electro_pop])
-      expect(artist.genres.size).to eq(2)
-    end
+        expect(@artist2.genres).to include(@genre1)
+        expect(@artist2.genres.size).to eq(1)
+      end
 
-    it 'does not use an instance variable @genres and collects genres from songs everytime' do
-      indie_rock = Genre.new("indie rock")
-      electro_pop = Genre.new("electro pop")
-      artist = Artist.new("The Magnetic Fields")
+      it "does not use an instance variable @genres and collects genres from songs everytime" do
+        song = Song.new("Long-Forgotten Fairytale", @artist2, @genre2)
 
-      song = Song.new("Long-Forgotten Fairytale", artist, electro_pop)
+        expect(@artist2.genres).to match_array([@genre2])
+        expect(@artist2.instance_variable_defined?(:@genres)).to be_falsey
 
-      expect(artist.genres).to match_array([electro_pop])
-      expect(artist.instance_variable_defined?(:@genres)).to be_falsey
-
-      song = Song.new("The Book of Love", artist, indie_rock)
-      expect(artist.genres).to match_array([indie_rock, electro_pop])
+        song = Song.new("The Book of Love", @artist2, @genre1)
+        expect(@artist2.genres).to match_array([@genre1, @genre2])
+      end
     end
   end
-end
 
-describe "Genres have many artists through songs" do
-  describe '#artists' do
-    it 'returns only unique artists for a genre when artists have multiple songs' do
-      genre = Genre.new("indie rock")
+  describe "Genres have many artists through songs" do
+    describe "#artists" do
+      it "returns only unique artists for a genre when artists have multiple songs" do
+        Song.new("In the Aeroplane Over the Sea", @artist1, @genre1)
+        Song.new("The Book of Love", @artist2, @genre1)
+        Song.new("Papa was a Rodeo", @artist2, @genre1)
 
-      neutral_milk_hotel = Artist.new("Neutral Milk Hotel")
-      the_magnetic_fields = Artist.new("The Magnetic Fields")
+        expect(@genre1.artists).to match_array([@artist1, @artist2])
+        expect(@genre1.artists.size).to eq(2)
+      end
 
-      Song.new("In the Aeroplane Over the Sea", neutral_milk_hotel, genre)
-      Song.new("The Book of Love", the_magnetic_fields, genre)
-      Song.new("Papa was a Rodeo", the_magnetic_fields, genre)
+      it "does not use an instance variable @artists and collects artists from songs everytime" do
+        Song.new("The Book of Love", @artist2, @genre1)
+        Song.new("Papa was a Rodeo", @artist2, @genre1)
 
-      expect(genre.artists).to match_array([neutral_milk_hotel, the_magnetic_fields])
-      expect(genre.artists.size).to eq(2)
-    end
+        expect(@genre1.artists).to match_array([@artist2])
+        expect(@genre1.instance_variable_defined?(:@artists)).to be_falsey
 
-    it 'does not use an instance variable @artists and collects artists from songs everytime' do
-      genre = Genre.new("indie rock")
+        Song.new("In the Aeroplane Over the Sea", @artist1, @genre1)
 
-      neutral_milk_hotel = Artist.new("Neutral Milk Hotel")
-      the_magnetic_fields = Artist.new("The Magnetic Fields")
-
-      Song.new("The Book of Love", the_magnetic_fields, genre)
-      Song.new("Papa was a Rodeo", the_magnetic_fields, genre)
-
-      expect(genre.artists).to match_array([the_magnetic_fields])
-      expect(genre.instance_variable_defined?(:@artists)).to be_falsey
-
-      Song.new("In the Aeroplane Over the Sea", neutral_milk_hotel, genre)
-
-      expect(genre.artists).to match_array([neutral_milk_hotel, the_magnetic_fields])
+        expect(@genre1.artists).to match_array([@artist1, @artist2])
+      end
     end
   end
-end
