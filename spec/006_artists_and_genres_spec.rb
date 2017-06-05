@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "Associations — Artist and Genre" do
+describe "Associations — Artist and Genre:" do
   before(:each) do
     @genre1 = Genre.new("indie rock")
     @genre2 = Genre.new("electro pop")
@@ -10,16 +10,16 @@ describe "Associations — Artist and Genre" do
 
   context "Artist" do
     describe "#genres" do
-      it "returns a collection of the genres of all of the artist's songs" do
+      it "returns a collection of genres for all of the artist's songs (artist has many genres through songs)" do
         Song.new("The Luckiest Guy on the Lower East Side", @artist1, @genre1)
         Song.new("Long-Forgotten Fairytale", @artist1, @genre2)
 
         expect(@artist1.genres).to include(@genre1)
         expect(@artist1.genres).to include(@genre2)
-        expect(artist.genres.size).to be(2)
+        expect(@artist1.genres.size).to be(2)
       end
 
-      it "returns only unique genres for an artist if more than one song has the same genre" do
+      it "does not return duplicate genres if the artist has more than one song of a particular genre (artist has many genres through songs)" do
         Song.new("In the Aeroplane Over the Sea", @artist2, @genre1)
         Song.new("Two-Headed Boy", @artist2, @genre1)
 
@@ -27,39 +27,36 @@ describe "Associations — Artist and Genre" do
         expect(@artist2.genres.size).to eq(1)
       end
 
-      it "does not use an instance variable @genres and collects genres from songs everytime" do
-        song = Song.new("Long-Forgotten Fairytale", @artist2, @genre2)
-
-        expect(@artist2.genres).to match_array([@genre2])
+      it "collects genres through its songs instead of maintaining its own @genres instance variable (artist has many genres through songs)" do
+        Song.new("In the Aeroplane Over the Sea", @artist2, @genre1)
         expect(@artist2.instance_variable_defined?(:@genres)).to be_falsey
-
-        song = Song.new("The Book of Love", @artist2, @genre1)
-        expect(@artist2.genres).to match_array([@genre1, @genre2])
       end
     end
   end
 
-  describe "Genres have many artists through songs" do
+  context "Genre" do
     describe "#artists" do
-      it "returns only unique artists for a genre when artists have multiple songs" do
-        Song.new("In the Aeroplane Over the Sea", @artist1, @genre1)
-        Song.new("The Book of Love", @artist2, @genre1)
-        Song.new("Papa was a Rodeo", @artist2, @genre1)
+      it "returns a collection of artists for all of the genre's songs (genre has many artists through songs)" do
+        Song.new("The Luckiest Guy on the Lower East Side", @artist1, @genre1)
+        Song.new("In the Aeroplane Over the Sea", @artist2, @genre1)
 
-        expect(@genre1.artists).to match_array([@artist1, @artist2])
-        expect(@genre1.artists.size).to eq(2)
+        expect(@genre1.artists).to include(@artist1)
+        expect(@genre1.artists).to include(@artist2)
+        expect(@genre1.artists.size).to be(2)
       end
 
-      it "does not use an instance variable @artists and collects artists from songs everytime" do
-        Song.new("The Book of Love", @artist2, @genre1)
-        Song.new("Papa was a Rodeo", @artist2, @genre1)
+      it "does not return duplicate artists if the genre has more than one song by a particular artist (genre has many artists through songs)" do
+        Song.new("In the Aeroplane Over the Sea", @artist2, @genre1)
+        Song.new("Two-Headed Boy", @artist2, @genre1)
 
-        expect(@genre1.artists).to match_array([@artist2])
+        expect(@genre1.artists).to include(@artist2)
+        expect(@genre1.artists.size).to eq(1)
+      end
+
+      it "collects artists through its songs instead of maintaining its own @artists instance variable (genre has many artists through songs)" do
+        Song.new("In the Aeroplane Over the Sea", @artist2, @genre1)
         expect(@genre1.instance_variable_defined?(:@artists)).to be_falsey
-
-        Song.new("In the Aeroplane Over the Sea", @artist1, @genre1)
-
-        expect(@genre1.artists).to match_array([@artist1, @artist2])
       end
     end
   end
+end
