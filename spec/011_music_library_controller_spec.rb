@@ -17,7 +17,7 @@ describe "MusicLibraryController" do
     end
 
     it "invokes the #import method on the created MusicImporter object" do
-      music_importer = MusicImporter.new("./db/mp3s")
+      music_importer = MusicImporter.new("./spec/fixtures/mp3s")
       expect(MusicImporter).to receive(:new).and_return(music_importer)
       expect(music_importer).to receive(:import)
       MusicLibraryController.new
