@@ -1,9 +1,10 @@
 require 'spec_helper'
 
 describe "MusicImporter" do
-  describe '#initialize' do
-    it 'accepts a file path to parse mp3 files from' do
-      test_music_path = "./spec/fixtures/mp3s"
+  test_music_path = "./spec/fixtures/mp3s"
+
+  describe "#initialize" do
+    it "accepts a file path to parse MP3 files from" do
       music_importer = MusicImporter.new(test_music_path)
       expect(music_importer.instance_variable_defined?(:@path)).to be(true)
       expect(music_importer.instance_variable_get(:@path)).to eq(test_music_path)
@@ -17,16 +18,13 @@ describe "MusicImporter" do
     end
   end
 
-  describe '#files' do
-    it 'loads all the mp3 files in the path directory' do
-      test_music_path = "./spec/fixtures/mp3s"
+  describe "#files" do
+    it "loads all the MP3 files in the path directory" do
       music_importer = MusicImporter.new(test_music_path)
-
       expect(music_importer.files.size).to eq(4)
     end
 
-    it 'normalizes the filename to just the mp3 filename with no path' do
-      test_music_path = "./spec/fixtures/mp3s"
+    it "normalizes the filename to just the MP3 filename with no path" do
       music_importer = MusicImporter.new(test_music_path)
 
       expect(music_importer.files).to include("Action Bronson - Larry Csonka - indie.mp3")
@@ -77,11 +75,11 @@ describe 'Making Songs from filenames' do
   end
 end
 
-describe "MusicImporter#import" do
-  it 'imports the files into the library by creating songs from a filename' do
-    test_music_path = "./spec/fixtures/mp3s"
-    music_importer = MusicImporter.new(test_music_path)
-    music_importer.import
+describe "MusicImporter" do
+  describe "#import" do
+    it "imports the files into the library by invoking Song.create_from_filename" do
+      test_music_path = "./spec/fixtures/mp3s"
+      music_importer = MusicImporter.new(test_music_path)
 
     expect(Song.all.size).to eq(4)
     expect(Artist.all.size).to eq(3)
