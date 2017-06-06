@@ -25,8 +25,9 @@ describe "MusicLibraryController" do
   end
 
   describe "#call" do
-    it "responds to a call method to start the CLI" do
-      expect(MusicLibraryController.new).to respond_to(:call)
+    it "initiates the music library's CLI" do
+      expect($stdout).to receive(:puts).with("Welcome to your music library!")
+      MusicLibraryController.new("./spec/fixtures/mp3s").call
     end
 
     it "asks the user for input at some point" do
