@@ -22,16 +22,6 @@ describe "MusicLibraryController" do
       expect(music_importer).to receive(:import)
       MusicLibraryController.new
     end
-
-    it "populates Song, Artist, and Genre" do
-      music_importer = MusicImporter.new("./spec/fixtures/mp3s")
-      expect(MusicImporter).to receive(:new).with("./spec/fixtures/mp3s").and_return(music_importer)
-
-      MusicLibraryController.new("./spec/fixtures/mp3s")
-      expect(Song.all.size).to eq(4)
-      expect(Artist.all.size).to eq(3)
-      expect(Genre.all.size).to eq(4)
-    end
   end
 
   describe "#call" do
