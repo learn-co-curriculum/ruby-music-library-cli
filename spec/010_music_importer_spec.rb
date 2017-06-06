@@ -10,6 +10,9 @@ describe "MusicImporter" do
     end
   end
 
+  describe "#path" do
+    it "retrieves the path provided to the MusicImporter object" do
+      music_importer = MusicImporter.new(test_music_path)
       expect(music_importer.path).to eq(test_music_path)
     end
   end
