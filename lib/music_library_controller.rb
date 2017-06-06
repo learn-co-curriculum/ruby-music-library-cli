@@ -67,7 +67,7 @@ class MusicLibraryController
   end
 
   def songs
-    Song.all.sort{|x, y| x.artist.name <=> y.artist.name}.each.with_index(1) do |s, i|
+    Song.all.sort{|x, y| x.artist.name <=> y.artist.name}.each.with_index(1) do |s, i| #added sort to pass test
       puts "#{i}. #{s}"
     end
   end
