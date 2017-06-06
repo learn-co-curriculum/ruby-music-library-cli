@@ -49,28 +49,25 @@ describe "Song" do
       artist = Artist.create("Thundercat")
       genre = Genre.create("dance")
 
+      expect(Artist).to receive(:find_or_create_by_name).and_return(artist)
+      expect(Genre).to receive(:find_or_create_by_name).and_return(genre)
+
       song = Song.new_from_filename("Thundercat - For Love I Come - dance.mp3")
-      expect(song.artist).to eq(artist)
-      expect(song.genre).to eq(genre)
+
+      expect(song.artist).to be(artist)
+      expect(song.genre).to be(genre)
     end
   end
 
   describe ".create_from_filename" do
     it "initializes and saves a song based on the passed-in filename" do
       song = Song.create_from_filename("Thundercat - For Love I Come - dance.mp3")
-
-      expect(song).to eq(Song.find_by_name("For Love I Come"))
-      expect(song.artist).to eq(Artist.find_by_name("Thundercat"))
-      expect(song.genre).to eq(Genre.find_by_name("dance"))
+      expect(Song.all.last.genre.name).to eq("dance")
     end
 
-    it 'maintains unique objects' do
-      artist = Artist.create("Thundercat")
-      genre = Genre.create("dance")
-
-      song = Song.create_from_filename("Thundercat - For Love I Come - dance.mp3")
-      expect(song.artist).to eq(artist)
-      expect(song.genre).to eq(genre)
+    it "invokes .new_from_filename instead of re-coding the same functionality" do
+      expect(Song).to receive(:new_from_filename).and_return(double(save: true))
+      Song.create_from_filename("Thundercat - For Love I Come - dance.mp3")
     end
   end
 end
@@ -81,11 +78,12 @@ describe "MusicImporter" do
       test_music_path = "./spec/fixtures/mp3s"
       music_importer = MusicImporter.new(test_music_path)
 
-    expect(Song.all.size).to eq(4)
-    expect(Artist.all.size).to eq(3)
-    expect(Genre.all.size).to eq(4)
+      expect(Song).to receive(:create_from_filename).with("Action Bronson - Larry Csonka - indie.mp3")
+      expect(Song).to receive(:create_from_filename).with("Real Estate - Green Aisles - country.mp3")
+      expect(Song).to receive(:create_from_filename).with("Real Estate - It's Real - hip-hop.mp3")
+      expect(Song).to receive(:create_from_filename).with("Thundercat - For Love I Come - dance.mp3")
 
-    expect(Song.find_by_name("Green Aisles").artist.name).to eq("Real Estate")
-    expect(Song.find_by_name("Green Aisles").artist.songs.size).to eq(2)
+      music_importer.import
+    end
   end
 end
