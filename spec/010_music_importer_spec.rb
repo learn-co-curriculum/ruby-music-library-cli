@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe "MusicImporter" do
   test_music_path = "./spec/fixtures/mp3s"
@@ -35,9 +35,9 @@ describe "MusicImporter" do
   end
 end
 
-describe 'Making Songs from filenames' do
-  describe 'Song.new_from_filename' do
-    it 'initializes a song based on the filename delimiters' do
+describe "Song" do
+  describe ".new_from_filename" do
+    it "initializes a song based on the passed-in filename" do
       song = Song.new_from_filename("Thundercat - For Love I Come - dance.mp3")
 
       expect(song.name).to eq("For Love I Come")
@@ -45,7 +45,7 @@ describe 'Making Songs from filenames' do
       expect(song.genre.name).to eq("dance")
     end
 
-    it 'maintains unique objects' do
+    it "invokes the appropriate Findable methods so as to avoid duplicating objects" do
       artist = Artist.create("Thundercat")
       genre = Genre.create("dance")
 
@@ -55,8 +55,8 @@ describe 'Making Songs from filenames' do
     end
   end
 
-  describe 'Song.create_from_filename' do
-    it 'initializes and saves a song based on the filename delimiters' do
+  describe ".create_from_filename" do
+    it "initializes and saves a song based on the passed-in filename" do
       song = Song.create_from_filename("Thundercat - For Love I Come - dance.mp3")
 
       expect(song).to eq(Song.find_by_name("For Love I Come"))
