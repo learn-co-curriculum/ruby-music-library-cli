@@ -6,8 +6,13 @@ describe 'MusicLibraryController' do
       expect{MusicLibraryController.new('./spec/fixtures/mp3s')}.to_not raise_error
     end
 
-    it 'the path argument defaults to ./db/mp3s' do
-      expect(MusicImporter).to receive(:new).with('./db/mp3s').and_return(MusicImporter.new('./db/mp3s'))
+    it "creates a new MusicImporter object, passing in the 'path' value" do
+      expect(MusicImporter).to receive(:new).with("./spec/fixtures/mp3s").and_return(double(MusicImporter, import: true))
+      MusicLibraryController.new("./spec/fixtures/mp3s")
+    end
+
+    it "the 'path' argument defaults to './db/mp3s'" do
+      expect(MusicImporter).to receive(:new).with("./db/mp3s").and_return(double(MusicImporter, import: true))
       MusicLibraryController.new
     end
 
