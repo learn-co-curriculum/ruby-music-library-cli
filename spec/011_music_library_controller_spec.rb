@@ -27,6 +27,7 @@ describe "MusicLibraryController" do
   describe "#call" do
     before(:each) do
       @music_library_controller = MusicLibraryController.new("./spec/fixtures/mp3s")
+      allow(@music_library_controller).to receive(:gets).and_return("exit", "a", "b", "exit")
     end
 
     it "initiates the music library's CLI" do
