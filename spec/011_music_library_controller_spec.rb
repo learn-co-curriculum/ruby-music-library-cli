@@ -25,22 +25,23 @@ describe "MusicLibraryController" do
   end
 
   describe "#call" do
-    it "initiates the music library's CLI" do
-      expect($stdout).to receive(:puts).with("Welcome to your music library!")
-      MusicLibraryController.new("./spec/fixtures/mp3s").call
+    before(:each) do
+      @music_library_controller = MusicLibraryController.new("./spec/fixtures/mp3s")
     end
 
-    it "asks the user for input at some point" do
-      music_library_controller = MusicLibraryController.new("./spec/fixtures/mp3s")
+    it "initiates the music library's CLI" do
+      expect($stdout).to receive(:puts).with("Welcome to your music library!")
+      @music_library_controller.call
+    end
 
-      expect(music_library_controller).to receive(:gets).and_return("exit")
-      music_library_controller.call
+    it "asks the user for input" do
+      expect(@music_library_controller).to receive(:gets).and_return("exit")
+      @music_library_controller.call
     end
 
     it "loops and asks for user input until they type in exit" do
-      music_library_controller = MusicLibraryController.new("./spec/fixtures/mp3s")
-      expect(music_library_controller).to receive(:gets).and_return("a", "b", "exit")
-      music_library_controller.call
+      expect(@music_library_controller).to receive(:gets).and_return("a", "b", "exit")
+      @music_library_controller.call
     end
   end
 end
