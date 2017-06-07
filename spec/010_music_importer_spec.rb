@@ -74,16 +74,28 @@ end
 
 describe "MusicImporter" do
   describe "#import" do
-    it "imports the files into the library by invoking Song.create_from_filename" do
+    before(:each) do
       test_music_path = "./spec/fixtures/mp3s"
-      music_importer = MusicImporter.new(test_music_path)
+      @music_importer = MusicImporter.new(test_music_path)
+    end
 
+    it "imports the files into the library by invoking Song.create_from_filename" do
       expect(Song).to receive(:create_from_filename).with("Action Bronson - Larry Csonka - indie.mp3")
       expect(Song).to receive(:create_from_filename).with("Real Estate - Green Aisles - country.mp3")
       expect(Song).to receive(:create_from_filename).with("Real Estate - It's Real - hip-hop.mp3")
       expect(Song).to receive(:create_from_filename).with("Thundercat - For Love I Come - dance.mp3")
 
-      music_importer.import
+      @music_importer.import
+    end
+
+    it "sorts the files alphabetically prior to creating new songs from the filenames" do
+      @music_importer.instance_variable_set(:@files, ["Cass McCombs - County Line - indie.mp3", "Alpha 9 - Bliss - trance.mp3", "Bob Dylan - Ballad of a Thin Man - folk.mp3"])
+
+      expect(Song).to receive(:create_from_filename).with("Alpha 9 - Bliss - trance.mp3").ordered
+      expect(Song).to receive(:create_from_filename).with("Bob Dylan - Ballad of a Thin Man - folk.mp3").ordered
+      expect(Song).to receive(:create_from_filename).with("Cass McCombs - County Line - indie.mp3").ordered
+
+      @music_importer.import
     end
   end
 end
