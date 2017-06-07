@@ -46,12 +46,12 @@ describe "MusicLibraryController" do
 
     it "asks the user for input" do
       expect(@music_library_controller).to receive(:gets).and_return("exit")
-      @music_library_controller.call
+      capture_puts { @music_library_controller.call }
     end
 
     it "loops and asks for user input until they type in exit" do
       expect(@music_library_controller).to receive(:gets).and_return("a", "b", "exit")
-      @music_library_controller.call
+      capture_puts { @music_library_controller.call }
     end
   end
 end
